@@ -53,12 +53,11 @@ export default [
 
   // ---- Web: Untyped TS/TSX on apps/web ----
   {
-    files: ['apps/web/**/*.{ts,tsx}'],
+    files: ['apps/web/**/*.{ts,tsx}', 'apps/web/vite.config.ts'],
     languageOptions: {
       parser: ts.parser,
       parserOptions: {
-        // fast: no per-project typing needed
-        projectService: true,
+        project: './apps/web/tsconfig.eslint.json',
         tsconfigRootDir: __dirname
       },
       ecmaVersion: 2022,
@@ -67,7 +66,6 @@ export default [
     },
     plugins: { '@typescript-eslint': ts.plugin, 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
     rules: {
-      // light rules to start
       'react-hooks/rules-of-hooks': 'error',
       'react-refresh/only-export-components': 'warn'
     }
