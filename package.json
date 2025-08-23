@@ -10,6 +10,7 @@
     "repo:test": "turbo run test",
     "repo:typecheck": "turbo run typecheck"
   },
+  "workspaces": ["apps/*","packages/*"],
   "keywords": [],
   "author": "",
   "license": "ISC",
