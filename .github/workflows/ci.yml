@@ -5,10 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # Auto-reads packageManager from package.json (10.14.0)
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: "pnpm" }
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm -v
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
