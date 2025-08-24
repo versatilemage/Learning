@@ -1,0 +1,20 @@
+DB_USER ?= awadh
+DB_PASS ?= PASSWORD
+DB_NAME ?= dev_db
+DB_HOST ?= localhost
+DB_PORT ?= 5432
+CONN := postgresql://$(DB_USER):$(DB_PASS)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)
+PSQL := psql "$(CONN)"
+
+.PHONY: db-verify db-ext db-url
+
+db-verify:
+	$(PSQL) -c "SELECT * FROM pg_stat_statements LIMIT 1;"
+
+SUPERUSER_USER ?= ptsakr
+db-ext:
+	psql -U $(SUPERUSER_USER) -d $(DB_NAME) -c "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+	psql -U $(SUPERUSER_USER) -d $(DB_NAME) -c "GRANT SELECT ON pg_stat_statements TO $(DB_USER);"
+
+db-url:
+	@echo DATABASE_URL="$(CONN)"
